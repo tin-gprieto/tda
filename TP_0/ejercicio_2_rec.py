@@ -22,7 +22,7 @@ def marcar_vertice(grafo, vertice, grupo):
     coincide_grupo = False
     i = 0
     
-    while((not coincide_grupo) and (i<len(ady))):
+    while((not coincide_grupo) and (i<len(adyacentes))):
         if(adyacentes[i] in grupo):
             coincide_grupo = True
         else:
