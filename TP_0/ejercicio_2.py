@@ -9,43 +9,45 @@ t = []
 def esta_visitado(vertice):
     return (vertice in s) or (vertice in t)
 
+def obtener_grupo_opuesto(vertice):
+    if(vertice in s):
+        return t
+    if(vertice in t):
+        return s
+    
+def coinciden_en_grupo(actual, anterior):
+    return(((actual in s) and (anterior in s)) or ((actual in t) and (anterior in t)))
 
 def cheaquear_adyacentes(grafo, vertice, grupo):
 
     ady = grafo.adyacentes(vertice)
-    coincidencia = False
+    coincide_grupo = False
     i = 0
     
-    while((not coincidencia) and (i<len(ady))):
+    while((not coincide_grupo) and (i<len(ady))):
         if(ady[i] in grupo):
-            coincidencia = True
+            coincide_grupo = True
         else:
             i += 1
-    return (not coincidencia)
+    
+    #lo marca si no tiene coincidencia con sus adyacentes
+    if(not coincide_grupo):
+        grupo.append(vertice)
+    
+    return (not coincide_grupo)
 
 
 def clasificar_vertice(grafo, anterior, actual):
     
-    #anterior sin clasificar (primer nodo)
-    if(not(esta_visitado(anterior))):
-        s.append(anterior)
-    
     #vertice ya visitado
     if(esta_visitado(actual)):
-        # que no comparta grupo con su vecino
-        if((actual in s) and (anterior in s)):
-            return False
-        if((actual in t) and (anterior in t)):
+        # que no comparta grupo con su adyacente anterior
+        if(coinciden_en_grupo(actual, anterior)):
             return False
         return True
 
     #marcar vertice
-    if(anterior in s):
-        t.append(actual)
-        return cheaquear_adyacentes(grafo, actual, t)
-    if(anterior in t):
-        s.append(actual)
-        return cheaquear_adyacentes(grafo, actual, s)
+    return cheaquear_adyacentes(grafo, actual, obtener_grupo_opuesto(anterior, actual)) 
 
     
 
@@ -61,12 +63,13 @@ def evaluar_grafo(grafo, vertice):
 
 def es_bipartito(grafo):
 
+    es_bipartito = True
+    
     if (not grafo):
-        return True
-
-    result = evaluar_grafo(grafo, grafo.vertices().pop())
+        return es_bipartito
     
-    s = []
-    t = []
+    primer_nodo = grafo.vertices().copy().pop()
+    s.append(primer_nodo)
+    es_bipartito = evaluar_grafo(grafo, primer_nodo)
     
-    return result
+    return es_bipartito

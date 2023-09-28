@@ -1,0 +1,92 @@
+import sys
+# Para el caso de querer implementar un DFS, 
+# para que no hayan problemas en la prueba de volumen
+sys.setrecursionlimit(10000)
+
+s = {}
+t = {}
+
+def vertice_marcado(vertice):
+    return (vertice in s) or (vertice in t)
+    
+def grupo_opuesto(vertice):
+    return s if (vertice in t) else t
+
+def marcar_adyacentes(grafo, vertice):
+    
+    g = grupo_opuesto(vertice) 
+    
+    for v in grafo.adyacentes(vertice):
+        #si encuentra un vertice en el mismo grupo que su adyacente
+        if(vertice_marcado(v) and (not (v in g))):
+            return False
+        else:
+            g.add(v)
+
+    return True
+
+def evaluar_grafo(grafo, to_visit):
+    
+    recorrido_local = {}
+    
+    primer_vertice = to_visit.pop(0)
+    recorrido_local.add(primer_vertice)
+    s.add(primer_vertice)
+    
+    for vertice in recorrido_local:
+        pudo_marcar = marcar_adyacentes(grafo, vertice)
+        if(not pudo_marcar):
+            return False
+        recorrido_local.update(grafo.adyacentes(vertice))
+        to_visit.remove(vertice)
+        
+    if(not to_visit):
+        return True
+    
+    return evaluar_grafo(grafo, to_visit)
+
+def es_bipartito(grafo):
+
+    if(not grafo):
+        return True
+    
+    to_visit = {}
+    to_visit.update(grafo.vertices())
+    
+    return evaluar_grafo(grafo, to_visit)
+
+
+'''
+def obtener_grupo(vertice):
+    return s if (vertice in s) else t
+    
+def grupo_para_marcar(grafo, vertice):
+    
+    grupo_anterior = None 
+    grupo_actual = None
+    
+    for v in grafo.adyacentes(vertice):
+        if(vertice_marcado(v)):
+            grupo_actual = obtener_grupo(v)
+            #si ambos tienen grupo y son diferentes, no es bipartito
+            if((grupo_anterior and grupo_actual) and (grupo_actual != grupo_anterior)):
+                return None
+            grupo_anterior = grupo_actual
+
+    #todos sus adyacentes no tienen grupo
+    if(not grupo_anterior):
+        return s
+    #devuelve el grupo opuesto a sus adyacentes
+    return grupo_opuesto(grupo_anterior)   
+
+def marcar_vertice(vertice):
+        
+    grupo = grupo_para_marcar(vertice)
+    
+    if (not grupo):
+        return False
+    
+    grupo.append(vertice)
+    
+    return True
+'''     
