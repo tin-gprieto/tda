@@ -1,0 +1,9 @@
+[submodule "tda_ejemplos"]
+	path = tda_ejemplos
+	url = git@github.com:algoritmos-rw/tda_ejemplos.git
+[submodule "2c2023-TDA1-TP1"]
+	path = 2c2023-TDA1-TP1
+	url = git@github.com:astrocinco/2c2023-TDA1-TP1.git
+[submodule "2c2023-TDA-TP2"]
+	path = 2c2023-TDA-TP2
+	url = git@github.com:astrocinco/2c2023-TDA-TP2.git
