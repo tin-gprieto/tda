@@ -7,3 +7,6 @@
 [submodule "2c2023-TDA-TP2"]
 	path = 2c2023-TDA-TP2
 	url = git@github.com:astrocinco/2c2023-TDA-TP2.git
+[submodule "2c2023-TDA-TP3"]
+	path = 2c2023-TDA-TP3
+	url = git@github.com:astrocinco/2c2023-TDA-TP3.git
