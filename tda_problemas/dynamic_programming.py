@@ -3,8 +3,15 @@ import sys
 # Dado un numero n, calcular su número de fibonacci
 # f(n) = f(n-1) + f(n-2)
 # f(0) = 0, f(1) = 1
-def fibonacci():
-    return 
+def fibonacci(n):
+    fibonacci = []
+    fibonacci.append(0)
+    fibonacci.append(1)
+    i=2
+    while (i <= n):
+        fibonacci.append(fibonacci[i -1] + fibonacci[i - 2])
+        i += 1
+    return fibonacci[n]
 
 # Dado un conjunto de charlas con inicio-final, maximizar la cantidad de charlas que se pueden dar en el día sin que se colapsen
 def problema_scheduling_charlas():
@@ -14,9 +21,21 @@ def problema_scheduling_charlas():
 def problema_escalones():
     return
 
-# Dada una lista de ofertas laborales por día con cierta ganancia, obtener la secuencia de dias que maximice la ganancia sin trabajar dos días seguidos
-def problema_juan_el_vago():
+
+def reconstruir_juan_el_vago():
     return
+    
+# Dada una lista de ofertas laborales por día con cierta ganancia, obtener la secuencia de dias que maximice la ganancia sin trabajar dos días seguidos
+def problema_juan_el_vago(ofertas):
+    optimos = []
+    dias = len(ofertas)
+    optimos.append(ofertas[0])
+    optimos.append(max(ofertas[0], ofertas[1]))
+    i = 2
+    while (i < dias):
+        optimos.append(max(optimos[i-1], optimos[i-2] + ofertas[i]))
+        i += 1
+    return reconstruir_juan_el_vago(ofertas, optimos)
 
 # Dado un tablero, obtener la cantidad de caminos posibles para llegar a (n,m) desde (0,0)
 # obs: Solo recoriendo para abajo o derecha (sin ir en diagonal)
@@ -57,13 +76,13 @@ if __name__ == "__main__":
         
     match sys.argv[1]:
         case '-a':
-            fibonacci()             
+            print(fibonacci(8))            
         case '-b':
             problema_scheduling_charlas()
         case '-c':
             problema_escalones()
         case '-d':
-            problema_juan_el_vago()
+            print(problema_juan_el_vago([100, 20, 30, 70, 50]))
         case '-e':
             problema_laberinto()
         case '-f':
