@@ -46,9 +46,28 @@ def problema_laberinto():
 def problema_telefono():
     return
 
+def primer_optimo_ciudad(costos_ciudad, es_inicial, costo_mudanza):
+    if(es_inicial):
+        return costos_ciudad[0]
+    return costo_mudanza[0] + costos_ciudad
+        
 # Dada una lista con costos de operacion en Londres y Californiam, y dado un costo de mudanza M, minimizar los costos de operación
-def problema_londres_california():
-    return
+def problema_londres_california(londres, california, ciudad_inicial, costo):
+    
+    if(len(londres) != len(california)):
+        print('ERROR')
+        return
+    n = len(londres) - 1
+    optimos_L = [ primer_optimo_ciudad(londres, ciudad_inicial == 'L', costo) ]
+    optimos_C = [ primer_optimo_ciudad(california, ciudad_inicial == 'C', costo) ]
+    
+    i = 1
+    while( i <= n):
+        optimos_L.append(min(londres[i] + optimos_L[i-1], londres[i] + costo + optimos_C[i-1]))
+        optimos_C.append(min(california[i] + optimos_C[i-1], california[i] + costo + optimos_L[i-1]))
+                                   # se queda                       #se muda()
+        i += 1
+    return min(optimos_L[n], optimos_C[n])
 
 # Dada una lista de objetos con cierta ganancia y peso, y una capacidad C de la mochila, obtener la secuencia de objetos para maximizar la ganancia
 def problema_knapsnack():
